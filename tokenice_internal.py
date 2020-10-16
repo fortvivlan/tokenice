@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 from time import time
 
@@ -198,9 +200,11 @@ def tokenize(string):
 
 
 # t = time()
-# dump = open(r'F:\Python\files\datasets\tokenicecheckintnorm.txt', 'w', encoding='utf8')
+# dump = open('tokenicecheck.txt', 'w', encoding='utf8')
+
+# userpath = input('Enter filepath for any text file in utf8\n')
 #
-# with open(r'F:\Python\files\datasets\norm_20190208.txt', 'r', encoding='utf8') as source:
+# with open(userpath, 'r', encoding='utf8') as source:
 #     for line in source:
 #         tokenized = tokenize(line)
 #         if tokenized:
@@ -208,4 +212,4 @@ def tokenize(string):
 #
 # dump.close()
 # print(time() - t)
-# print(*tokenize(input()), sep='\n')
+print(*tokenize(input()), sep='\n')
