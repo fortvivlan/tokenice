@@ -212,4 +212,5 @@ def tokenize(string):
 #
 # dump.close()
 # print(time() - t)
+
 print(*tokenize(input()), sep='\n')
