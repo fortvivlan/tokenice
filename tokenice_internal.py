@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import re
 from time import time
 
@@ -158,9 +156,12 @@ def tokenize(string):
 
         elif left_token.isdigit() and len(delimiter) == 1 and delimiter in '.,:/':
             # для цифр вида 20.00, 20:00, 20 000, 20,00, 20/00
-            if string[start].isdigit():
-                joinstring = left_token + delimiter
-                delimitcheck = False
+            if len(string) > start:
+                if string[start].isdigit():
+                    joinstring = left_token + delimiter
+                    delimitcheck = False
+                else:
+                    result.append(left_token)
             else:
                 result.append(left_token)
 
@@ -169,6 +170,7 @@ def tokenize(string):
             # временное решение для аббревиатур: обычно если один буквенный символ с точкой, это сокращение
             result.append(left_token + delimiter[0])
             delimiter = delimiter[1:]
+
         else:
             result.append(left_token)       # основное добавление токена в результирующий список
 
@@ -200,11 +202,9 @@ def tokenize(string):
 
 
 # t = time()
-# dump = open('tokenicecheck.txt', 'w', encoding='utf8')
-
-# userpath = input('Enter filepath for any text file in utf8\n')
+# dump = open(input('Куда писать?\n'), 'w', encoding='utf8')
 #
-# with open(userpath, 'r', encoding='utf8') as source:
+# with open(input('Откуда брать?\n'), 'r', encoding='utf8') as source:
 #     for line in source:
 #         tokenized = tokenize(line)
 #         if tokenized:
