@@ -7,10 +7,8 @@ from time import time
 def defiledsplitter(token):
     """Минифункция для разделения слов по дефису, если они не в списке"""
     res = []
-    if token.count('-') == 1 and \
-            ((token.startswith('-') and token[1:].isdigit()) or
-             token[:token.index('-')].isdigit() or token[token.index('-') + 1:].isdigit()):
-        return [token]      # если слово заканчивается на дефис, не делим; если начинается и это цифра, тоже
+    if token[:token.index('-')].isdigit() or token[token.index('-') + 1:].isdigit() or token.endswith('-то'):
+        return [token]      # если цифры с дефисами, не делим
     matches = re.finditer('-', token)
     start = 0
     for match in matches:
@@ -29,7 +27,7 @@ def delimitercheck(delim):
     Спасибо Маше за список эмодзи в юникоде"""
     punct = r'[.,?!…—–]+'
     twos = r'[:;](?!=[)(*])'
-    bracketsquotes = r'[\'"\{\[\(\}\]\)«“‘»”’„]'
+    bracketsquotes = r'[\{\[\(\}\]\)]|[\'"«“‘»”’„]+'
     smiles = r'(?:[=:;][)(]{1,})|(?:\){2,}|\({2,}|[)(]{1,3}:|[=:;]\*+)'
     emoji = r'''(?:[\U0001F1E0-\U0001F1FF]|[\U0001F300-\U0001F5FF]|[\U0001F600-\U0001F64F]|[\U0001F680-\U0001F6FF]|
 [\U0001F700-\U0001F77F]|[\U0001F780-\U0001F7FF]|[\U0001F800-\U0001F8FF]|[\U0001F900-\U0001F9FF]|[\U0001FA00-\U0001FA6F]|
@@ -107,7 +105,7 @@ def tokenize(string):
 
         elif joinstring:  # если нам что-то надо было слить (цифры), проверяем это
             if left_token.isdigit():
-                if len(delimiter) == 1 and delimiter in '.,:/':
+                if len(delimiter) == 1 and delimiter in '().,:/':
                     joinstring += left_token + delimiter
                     delimitcheck = False
                 else:
@@ -172,7 +170,8 @@ def tokenize(string):
             delimiter = delimiter[1:]
 
         else:
-            result.append(left_token)       # основное добавление токена в результирующий список
+            if left_token:
+                result.append(left_token)       # основное добавление токена в результирующий список
 
         ''' проверка делимитера '''
 
